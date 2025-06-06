@@ -78,7 +78,7 @@
   </div>
 
   <div class="card" id="earn" style="display:none;">
-    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 15 সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>
+    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>
     <h3>Today's Tasks</h3>
     <p>Total Tasks: <span id="etotal">50</span></p>
     <p>Completed: <span id="ecompleted">0</span></p>
@@ -166,12 +166,12 @@
     function startTask() {
       if (data.completed >= 50) return alert("You have completed all tasks for today!");
       const start = Date.now();
-      const ad = window.open("https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default", "_blank");
+      const ad = window.open("https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb", "_blank");
       const check = setInterval(() => {
         if (ad.closed) {
           clearInterval(check);
           const duration = (Date.now() - start) / 1000;
-          if (duration >= 15) {
+          if (duration >= 30) {
             data.completed++;
             data.remaining--;
             data.todaysEarning += 0.05;
@@ -180,7 +180,7 @@
             updateDisplay();
             alert("✅ Task completed! $0.05 added.");
           } else {
-            alert("⏱️ You must view the ad for at least 15 seconds.");
+            alert("⏱️ You must view the ad for at least 30 seconds.");
           }
         }
       }, 500);
