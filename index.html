@@ -47,9 +47,9 @@
 
   <div class="card" id="home-card">
     <h3 style="color: #007bff;">Today's Tasks</h3>
-    <p><b>Total Tasks:</b> <span id="total">50</span></p>
+    <p><b>Total Tasks:</b> <span id="total">30</span></p>
     <p><b>Completed:</b> <span id="completed">0</span></p>
-    <p><b>Remaining:</b> <span id="remaining">50</span></p>
+    <p><b>Remaining:</b> <span id="remaining">30</span></p>
     <div class="progress"><div class="bar" id="progress-bar"></div></div>
   </div>
 
@@ -78,11 +78,11 @@
   </div>
 
   <div class="card" id="earn" style="display:none;">
-    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>
+    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.08 উপার্জন করুন!</div>
     <h3>Today's Tasks</h3>
-    <p>Total Tasks: <span id="etotal">50</span></p>
+    <p>Total Tasks: <span id="etotal">30</span></p>
     <p>Completed: <span id="ecompleted">0</span></p>
-    <p>Remaining: <span id="eremaining">50</span></p>
+    <p>Remaining: <span id="eremaining">30</span></p>
     <div class="button" onclick="startTask()">Start Earning ▶</div>
     <div class="button" onclick="copyReferralLink()">Refer & Earn</div>
   </div>
@@ -120,11 +120,11 @@
     };
 
     let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {
-      date: today, completed: 0, remaining: 50, todaysEarning: 0
+      date: today, completed: 0, remaining: 30, todaysEarning: 0
     };
 
     if (data.date !== today) {
-      data = { date: today, completed: 0, remaining: 50, todaysEarning: 0 };
+      data = { date: today, completed: 0, remaining: 30, todaysEarning: 0 };
     }
 
     if (ref && ref.startsWith("ref_")) {
@@ -164,7 +164,7 @@
     }
 
     function startTask() {
-      if (data.completed >= 50) return alert("You have completed all tasks for today!");
+      if (data.completed >= 30) return alert("You have completed all tasks for today!");
       const start = Date.now();
       const ad = window.open("https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb", "_blank");
       const check = setInterval(() => {
@@ -174,11 +174,11 @@
           if (duration >= 30) {
             data.completed++;
             data.remaining--;
-            data.todaysEarning += 0.05;
-            userData.lifetimeEarning += 0.05;
+            data.todaysEarning += 0.08;
+            userData.lifetimeEarning += 0.08;
             updateStorage();
             updateDisplay();
-            alert("✅ Task completed! $0.05 added.");
+            alert("✅ Task completed! $0.08 added.");
           } else {
             alert("⏱️ You must view the ad for at least 30 seconds.");
           }
@@ -206,7 +206,7 @@
     function copyReferralLink() {
       const refLink = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;
       navigator.clipboard.writeText(refLink)
-        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! প্রতি রেফারে পাবেন $1 ডলার। 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে বন্ধুদের আপনার লিংক শেয়ার করুন অথবা Facebook Video কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))
+        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! প্রতি রেফারে পাবেন $1 ডলার। 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে আপনার বন্ধুদের রেফার লিংক শেয়ার করুন অথবা Facebook Video কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))
         .catch(() => alert("Failed to copy link."));
     }
 
