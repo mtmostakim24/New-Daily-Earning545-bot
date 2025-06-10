@@ -163,10 +163,20 @@
       document.getElementById("ref-count").innerText = userData.referrals;
     }
 
+    const taskLink = [
+      "https://data963.click/e64f9a4ee48c1bc37d7a/0c63581d81/?placementName=default",
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+
+    
     function startTask() {
       if (data.completed >= 50) return alert("You have completed all tasks for today!");
       const start = Date.now();
-      const ad = window.open("https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb", "_blank");
+      const ad = window.open(taskLinks[data.completed], "_blank");
       const check = setInterval(() => {
         if (ad.closed) {
           clearInterval(check);
