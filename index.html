@@ -34,34 +34,34 @@
 <body>  
   <header>  
     <div class="title">Daily Earning545</div>  
-    <div class="balance-display">Balance: <span id="header-balance">$0.00</span></div>  
+    <div class="balance-display">Balance: <span id="header-balance">$0.000</span></div>  
   </header>  
   
   <div class="profile">  
     <img src="https://i.ibb.co/6R45cM6C/Polish-20250529-015530961.jpg" alt="Profile">  
     <div class="name" id="username">Username</div>  
     <div class="balance">Balance:</div>  
-    <div class="usd" id="usd-balance">USD $0.00</div>  
+    <div class="usd" id="usd-balance">USD $0.000</div>  
     <div class="balance">Referrals: <span id="ref-count">0</span></div>  
   </div>  
   
   <div class="card" id="home-card">  
     <h3 style="color: #007bff;">Today's Tasks</h3>  
-    <p><b>Total Tasks:</b> <span id="total">50</span></p>  
+    <p><b>Total Tasks:</b> <span id="total">200</span></p>  
     <p><b>Completed:</b> <span id="completed">0</span></p>  
-    <p><b>Remaining:</b> <span id="remaining">50</span></p>  
+    <p><b>Remaining:</b> <span id="remaining">200</span></p>  
     <div class="progress"><div class="bar" id="progress-bar"></div></div>  
   </div>  
   
   <div class="card">  
     <h3 style="color: green;">Earnings</h3>  
-    <p><b>Today's Earnings:</b> USD $<span id="todays-earning">0.00</span></p>  
-    <p><b>Lifetime Earnings:</b> USD $<span id="lifetime-earning">0.00</span></p>  
+    <p><b>Today's Earnings:</b> USD $<span id="todays-earning">0.000</span></p>  
+    <p><b>Lifetime Earnings:</b> USD $<span id="lifetime-earning">0.000</span></p>  
   </div>  
   
   <div class="card" id="withdraw" style="display:none;">  
     <h3 style="color: #007bff;">Withdraw</h3>  
-    <p>Available Balance: <b>USD $<span id="available">0.00</span></b></p>  
+    <p>Available Balance: <b>USD $<span id="available">0.000</span></b></p>  
     <p>Withdrawal Method</p>  
     <select>  
       <option>Select a method</option>  
@@ -78,11 +78,11 @@
   </div>  
   
   <div class="card" id="earn" style="display:none;">  
-    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে 30 সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.05 উপার্জন করুন!</div>  
+    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে ১৫ সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.015 উপার্জন করুন!</div>  
     <h3>Today's Tasks</h3>  
-    <p>Total Tasks: <span id="etotal">50</span></p>  
+    <p>Total Tasks: <span id="etotal">200</span></p>  
     <p>Completed: <span id="ecompleted">0</span></p>  
-    <p>Remaining: <span id="eremaining">50</span></p>  
+    <p>Remaining: <span id="eremaining">200</span></p>  
     <div class="button" onclick="startTask()">Start Earning ▶</div>  
     <div class="button" onclick="copyReferralLink()">Refer & Earn</div>  
   </div>  
@@ -120,11 +120,11 @@
     };  
   
     let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {  
-      date: today, completed: 0, remaining: 50, todaysEarning: 0  
+      date: today, completed: 0, remaining: 200, todaysEarning: 0  
     };  
   
     if (data.date !== today) {  
-      data = { date: today, completed: 0, remaining: 50, todaysEarning: 0 };  
+      data = { date: today, completed: 0, remaining: 200, todaysEarning: 0 };  
     }  
   
     if (ref && ref.startsWith("ref_")) {  
@@ -165,75 +165,225 @@
   
     const taskLinks = [
       "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
       "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
-      "https://inkt.site/?c=?register/code=voPqxZOz",
-      "https://www.febspot.com/video/2774089",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://www.febspot.com/video/2769086",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://www.febspot.com/video/2773674",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://www.febspot.com/video/2773633",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
       "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://www.febspot.com/video/2769073"
-      
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/q2rbs5mbge?key=698f1c1a052d0f6016e106d1685c3ba9",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
+      "https://otieu.com/4/9452846",
+      "https://125700.shop/e64f9a4ee48c1bc37d7a/3583d840be/?placementName=default",
+      "https://www.febspot.com/video/2773165",
+      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396"
+
     ];
 
     function startTask() {  
-      if (data.completed >= 50) return alert("You have completed all tasks for today!");  
+      if (data.completed >= 200) return alert("You have completed all tasks for today!");  
       const start = Date.now();  
       const ad = window.open(taskLinks[data.completed], "_blank");  
       const check = setInterval(() => {  
         if (ad.closed) {  
           clearInterval(check);  
           const duration = (Date.now() - start) / 1000;  
-          if (duration >= 30) {  
+          if (duration >= 15) {  
             data.completed++;  
             data.remaining--;  
-            data.todaysEarning += 0.05;  
-            userData.lifetimeEarning += 0.05;  
+            data.todaysEarning += 0.015;  
+            userData.lifetimeEarning += 0.015;  
             updateStorage();  
             updateDisplay();  
-            alert("✅ Task completed! $0.05 added.");  
+            alert("✅ Task completed! $0.015 added.");  
           } else {  
             alert("⏱️ You must view the ad for at least 30 seconds.");  
           }  
@@ -261,7 +411,7 @@
     function copyReferralLink() {  
       const refLink = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;  
       navigator.clipboard.writeText(refLink)  
-        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! প্রতি রেফারে পাবেন $1 ডলার। 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে আপনার বন্ধুদের রেফার লিংক শেয়ার করুন অথবা Facebook Video কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))  
+        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! প্রতি রেফারে পাবেন $1 ডলার। 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে আপনার বন্ধুদের রেফার লিংক শেয়ার করুন অথবা Facebook এর ইনকাম Group গুলোর পোস্টের কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))  
         .catch(() => alert("Failed to copy link."));  
     }  
   
