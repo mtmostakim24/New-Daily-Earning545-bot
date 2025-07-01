@@ -47,9 +47,9 @@
   
   <div class="card" id="home-card">  
     <h3 style="color: #007bff;">Today's Tasks</h3>  
-    <p><b>Total Tasks:</b> <span id="total">200</span></p>  
+    <p><b>Total Tasks:</b> <span id="total">100</span></p>  
     <p><b>Completed:</b> <span id="completed">0</span></p>  
-    <p><b>Remaining:</b> <span id="remaining">200</span></p>  
+    <p><b>Remaining:</b> <span id="remaining">100</span></p>  
     <div class="progress"><div class="bar" id="progress-bar"></div></div>  
   </div>  
   
@@ -78,11 +78,11 @@
   </div>  
   
   <div class="card" id="earn" style="display:none;">  
-    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে ১৫ সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.015 উপার্জন করুন!</div>  
+    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে ১৫ সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.025 উপার্জন করুন!</div>  
     <h3>Today's Tasks</h3>  
-    <p>Total Tasks: <span id="etotal">200</span></p>  
+    <p>Total Tasks: <span id="etotal">100</span></p>  
     <p>Completed: <span id="ecompleted">0</span></p>  
-    <p>Remaining: <span id="eremaining">200</span></p>  
+    <p>Remaining: <span id="eremaining">100</span></p>  
     <div class="button" onclick="startTask()">Start Earning ▶</div>  
     <div class="button" onclick="copyReferralLink()">Refer & Earn</div>  
   </div>  
@@ -120,11 +120,11 @@
     };  
   
     let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {  
-      date: today, completed: 0, remaining: 200, todaysEarning: 0  
+      date: today, completed: 0, remaining: 100, todaysEarning: 0  
     };  
   
     if (data.date !== today) {  
-      data = { date: today, completed: 0, remaining: 200, todaysEarning: 0 };  
+      data = { date: today, completed: 0, remaining: 100, todaysEarning: 0 };  
     }  
   
     if (ref && ref.startsWith("ref_")) {  
@@ -159,217 +159,117 @@
       document.getElementById("usd-balance").innerText = "USD $" + userData.lifetimeEarning.toFixed(2);  
       document.getElementById("available").innerText = userData.lifetimeEarning.toFixed(2);  
       document.getElementById("header-balance").innerText = "$" + userData.lifetimeEarning.toFixed(2);  
-      document.getElementById("progress-bar").style.width = (data.completed / 100 * 200) + "%";  
+      document.getElementById("progress-bar").style.width = (data.completed / 50 * 100) + "%";  
       document.getElementById("ref-count").innerText = userData.referrals;  
     }  
   
     const taskLinks = [
       "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
       "https://otieu.com/4/9453951",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453942",
       "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
       "https://otieu.com/4/9453932",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453943",
       "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
       "https://otieu.com/4/9453944",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453949",
       "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
       "https://otieu.com/4/9453955",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453953",
       "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
       "https://otieu.com/4/9453941",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453939",
       "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
       "https://otieu.com/4/9452846",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453956",
       "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
       "https://otieu.com/4/9453948",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453947",
       "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
       "https://otieu.com/4/9453954",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453952",
       "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
       "https://otieu.com/4/9453950",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9452846",
       "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://otieu.com/4/9453931",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
       "https://otieu.com/4/9453931",
       "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
       "https://otieu.com/4/9452846",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453950",
       "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
       "https://otieu.com/4/9453952",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453954",
       "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
       "https://otieu.com/4/9453947",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453948",
       "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
       "https://otieu.com/4/9453956",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453941",
       "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
       "https://otieu.com/4/9453939",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453945",
       "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
       "https://otieu.com/4/9453953",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453955",
       "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
       "https://otieu.com/4/9453938",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453944",
       "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
       "https://otieu.com/4/9453949",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453932",
       "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
       "https://otieu.com/4/9453943",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453951",
       "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://otieu.com/4/9453942",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
       "https://otieu.com/4/9453942",
       "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
       "https://otieu.com/4/9453951",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453943",
       "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
       "https://otieu.com/4/9453932",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453949",
       "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
       "https://otieu.com/4/9453944",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453938",
       "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
       "https://otieu.com/4/9453955",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453953",
       "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
       "https://otieu.com/4/9453941",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453939",
       "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
       "https://otieu.com/4/9453945",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453956",
       "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
       "https://otieu.com/4/9453948",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453947",
       "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
       "https://otieu.com/4/9453954",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453952",
       "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
       "https://otieu.com/4/9453950",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9452846",
       "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://otieu.com/4/9453931",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
       "https://otieu.com/4/9453931",
       "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
       "https://otieu.com/4/9452846",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453950",
       "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
       "https://otieu.com/4/9453952",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453954",
       "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
       "https://otieu.com/4/9453947",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453948",
       "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
       "https://otieu.com/4/9453956",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453941",
       "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
       "https://otieu.com/4/9453939",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453945",
       "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
       "https://otieu.com/4/9453953",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453955",
       "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
       "https://otieu.com/4/9453938",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453944",
       "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
       "https://otieu.com/4/9453949",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453932",
       "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
       "https://otieu.com/4/9453943",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453951",
       "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
       "https://otieu.com/4/9453942",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453931",
-      "https://otieu.com/4/9453942",
       "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9452846",
+      "https://otieu.com/4/9453942",
       "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
       "https://otieu.com/4/9453932",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453952",
       "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
       "https://otieu.com/4/9453944",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453942",
       "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
       "https://otieu.com/4/9453955",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453947",
       "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
       "https://otieu.com/4/9453941",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453943",
       "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
       "https://otieu.com/4/9453945",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453949",
       "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
       "https://otieu.com/4/9453948",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453956",
       "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
       "https://otieu.com/4/9453954",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453938",
       "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
       "https://otieu.com/4/9453950",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453953",
       "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
       "https://otieu.com/4/9453931",
-      "https://data963.click/3fb3f68dd589aafe08d5/9c29dac7b7/?placementName=default",
-      "https://otieu.com/4/9453939",
       "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396"
 
     ];
 
     function startTask() {  
-      if (data.completed >= 200) return alert("You have completed all tasks for today!");  
+      if (data.completed >= 100) return alert("You have completed all tasks for today!");  
       const start = Date.now();  
       const ad = window.open(taskLinks[data.completed], "_blank");  
       const check = setInterval(() => {  
@@ -379,11 +279,11 @@
           if (duration >= 15) {  
             data.completed++;  
             data.remaining--;  
-            data.todaysEarning += 0.015;  
-            userData.lifetimeEarning += 0.015;  
+            data.todaysEarning += 0.025;  
+            userData.lifetimeEarning += 0.025;  
             updateStorage();  
             updateDisplay();  
-            alert("✅ Task completed! $0.015 added.");  
+            alert("✅ Task completed! $0.025 added.");  
           } else {  
             alert("⏱️ আপনাকে অবশ্যই কমপক্ষে 15 সেকেন্ডের জন্য বিজ্ঞাপনটি দেখতে হবে!");  
           }  
