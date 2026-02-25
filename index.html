@@ -1,322 +1,1323 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>Daily Earning545 Bot</title>  
-  <style>  
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }  
-    body { background: #f2f2f2; padding-bottom: 80px; }  
-    header {  
-      background: white; padding: 15px 10px;  
-      display: flex; justify-content: space-between;  
-      align-items: center; font-weight: bold; border-bottom: 1px solid #ddd;  
-    }  
-    header .title { color: #007bff; font-size: 18px; }  
-    header .balance-display { font-size: 14px; color: green; }  
-    .profile { text-align: center; padding: 20px; }  
-    .profile img { width: 80px; height: 80px; border-radius: 50%; }  
-    .name { font-size: 18px; margin: 5px 0; color: #007bff; }  
-    .balance { color: gray; }  
-    .usd { font-size: 20px; margin: 10px 0; }  
-    .card { background: white; margin: 15px; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }  
-    .progress { height: 10px; background: #eee; border-radius: 5px; margin-top: 10px; }  
-    .bar { height: 10px; background: #007bff; width: 0%; border-radius: 5px; transition: 0.3s; }  
-    .nav { position: fixed; bottom: 0; width: 100%; display: flex; justify-content: space-around; background: white; border-top: 1px solid #ccc; padding: 10px 0; }  
-    .nav div { text-align: center; font-size: 14px; cursor: pointer; color: gray; }  
-    .nav img { width: 24px; height: 24px; display: block; margin: 0 auto 5px; filter: grayscale(1); }  
-    .nav .active { color: #007bff; font-weight: bold; }  
-    .nav .active img { filter: none; }  
-    .button { background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px; margin-top: 10px; cursor: pointer; }  
-    input, select { width: 100%; padding: 8px; margin-top: 8px; border: 1px solid #ccc; border-radius: 5px; }  
-  </style>  
-</head>  
-<body>  
-  <header>  
-    <div class="title">Daily Earning545</div>  
-    <div class="balance-display">Balance: <span id="header-balance">$0.000</span></div>  
-  </header>  
-  
-  <div class="profile">  
-    <img src="https://i.ibb.co/6R45cM6C/Polish-20250529-015530961.jpg" alt="Profile">  
-    <div class="name" id="username">Username</div>  
-    <div class="balance">Balance:</div>  
-    <div class="usd" id="usd-balance">USD $0.000</div>  
-    <div class="balance">Referrals: <span id="ref-count">0</span></div>  
-  </div>  
-  
-  <div class="card" id="home-card">  
-    <h3 style="color: #007bff;">Today's Tasks</h3>  
-    <p><b>Total Tasks:</b> <span id="total">100</span></p>  
-    <p><b>Completed:</b> <span id="completed">0</span></p>  
-    <p><b>Remaining:</b> <span id="remaining">100</span></p>  
-    <div class="progress"><div class="bar" id="progress-bar"></div></div>  
-  </div>  
-  
-  <div class="card">  
-    <h3 style="color: green;">Earnings</h3>  
-    <p><b>Today's Earnings:</b> USD $<span id="todays-earning">0.000</span></p>  
-    <p><b>Lifetime Earnings:</b> USD $<span id="lifetime-earning">0.000</span></p>  
-  </div>  
-  
-  <div class="card" id="withdraw" style="display:none;">  
-    <h3 style="color: #007bff;">Withdraw</h3>  
-    <p>Available Balance: <b>USD $<span id="available">0.000</span></b></p>  
-    <p>Withdrawal Method</p>  
-    <select>  
-      <option>Select a method</option>  
-      <option>Bkash $30</option>  
-      <option>Nagad $30</option>  
-      <option>Payeer $50</option>  
-      <option>USDT (TRC20) $50</option>  
-    </select>  
-    <p>Amount</p>  
-    <input type="text" id="withdraw-amount" placeholder="Enter amount" />  
-    <p>Withdrawal Address</p>  
-    <input type="text" placeholder="Enter wallet address" />  
-    <div class="button" onclick="submitWithdrawal()">Submit Withdrawal</div>  
-  </div>  
-  
-  <div class="card" id="earn" style="display:none;">  
-    <div class="name">আপনি বিজ্ঞাপনগুলি দেখে উপার্জন করুন। টাস্কটি সম্পূর্ণ করতে ১৫ সেকেন্ড ads এ ঘুরাঘুরি করুন এবং প্রতি টাস্কে $0.025 উপার্জন করুন!</div>  
-    <h3>Today's Tasks</h3>  
-    <p>Total Tasks: <span id="etotal">100</span></p>  
-    <p>Completed: <span id="ecompleted">0</span></p>  
-    <p>Remaining: <span id="eremaining">100</span></p>  
-    <div class="button" onclick="startTask()">Start Earning ▶</div>  
-    <div class="button" onclick="copyReferralLink()">Refer & Earn</div>  
-  </div>  
-  
-  <div class="nav">  
-    <div id="nav-home" class="active" onclick="show('home')">  
-      <img src="https://i.ibb.co/Xk62qkyP/icon-156755-1280.png" alt="Home" />  
-      <div>Home</div>  
-    </div>  
-    <div id="nav-earn" onclick="show('earn')">  
-      <img src="https://i.ibb.co/8n4w6sFc/Polish-20250527-012543531.jpg" alt="Earn" />  
-      <div>Earn</div>  
-    </div>  
-    <div id="nav-withdraw" onclick="show('withdraw')">  
-      <img src="https://i.ibb.co/jkvRWMHL/10176028.png" alt="Withdraw" />  
-      <div>Withdraw</div>  
-    </div>  
-    <div id="nav-profile" onclick="show('home')">  
-      <img src="https://i.ibb.co/WNW4Cdhz/user-circles-set-78370-4704.jpg" alt="Profile" />  
-      <div>Profile</div>  
-    </div>  
-  </div>  
-  
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>  
-  <script>  
-    const tg = window.Telegram.WebApp;  
-    const userId = tg.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);  
-    const username = tg.initDataUnsafe?.user?.username || "Guest";  
-    const ref = new URLSearchParams(window.location.search).get("start");  
-  
-    const today = new Date().toLocaleDateString();  
-  
-    let userData = JSON.parse(localStorage.getItem("MTEarningData")) || {  
-      userId, username, referrals: 0, lifetimeEarning: 0  
-    };  
-  
-    let data = JSON.parse(localStorage.getItem("dailyEarningData")) || {  
-      date: today, completed: 0, remaining: 100, todaysEarning: 0  
-    };  
-  
-    if (data.date !== today) {  
-      data = { date: today, completed: 0, remaining: 100, todaysEarning: 0 };  
-    }  
-  
-    if (ref && ref.startsWith("ref_")) {  
-      const refId = ref.split("ref_")[1];  
-      const referredUsers = JSON.parse(localStorage.getItem(`referrals_${refId}`)) || [];  
-      if (!referredUsers.includes(userId)) {  
-        referredUsers.push(userId);  
-        localStorage.setItem(`referrals_${refId}`, JSON.stringify(referredUsers));  
-        if (userId !== refId) {  
-          const refCount = parseInt(localStorage.getItem(`ref_count_${refId}`) || "0");  
-          localStorage.setItem(`ref_count_${refId}`, refCount + 1);  
-        }  
-      }  
-    }  
-  
-    const refCount = parseInt(localStorage.getItem(`ref_count_${userId}`) || "0");  
-    userData.referrals = refCount;  
-  
-    function updateStorage() {  
-      localStorage.setItem("MTEarningData", JSON.stringify(userData));  
-      localStorage.setItem("dailyEarningData", JSON.stringify(data));  
-    }  
-  
-    function updateDisplay() {  
-      document.getElementById("username").innerText = username;  
-      document.getElementById("completed").innerText = data.completed;  
-      document.getElementById("remaining").innerText = data.remaining;  
-      document.getElementById("ecompleted").innerText = data.completed;  
-      document.getElementById("eremaining").innerText = data.remaining;  
-      document.getElementById("todays-earning").innerText = data.todaysEarning.toFixed(2);  
-      document.getElementById("lifetime-earning").innerText = userData.lifetimeEarning.toFixed(2);  
-      document.getElementById("usd-balance").innerText = "USD $" + userData.lifetimeEarning.toFixed(2);  
-      document.getElementById("available").innerText = userData.lifetimeEarning.toFixed(2);  
-      document.getElementById("header-balance").innerText = "$" + userData.lifetimeEarning.toFixed(2);  
-      document.getElementById("progress-bar").style.width = (data.completed / 50 * 100) + "%";  
-      document.getElementById("ref-count").innerText = userData.referrals;  
-    }  
-  
-    const taskLinks = [
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://otieu.com/4/9453951",
-      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
-      "https://otieu.com/4/9453932",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://otieu.com/4/9453944",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://otieu.com/4/9453955",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://otieu.com/4/9453941",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://otieu.com/4/9452846",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://otieu.com/4/9453948",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://otieu.com/4/9453954",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://otieu.com/4/9453950",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://otieu.com/4/9453931",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://otieu.com/4/9452846",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://otieu.com/4/9453952",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://otieu.com/4/9453947",
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://otieu.com/4/9453956",
-      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
-      "https://otieu.com/4/9453939",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://otieu.com/4/9453953",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://otieu.com/4/9453938",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://otieu.com/4/9453949",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://otieu.com/4/9453943",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://otieu.com/4/9453942",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://otieu.com/4/9453951",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://otieu.com/4/9453932",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://otieu.com/4/9453944",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://otieu.com/4/9453955",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://otieu.com/4/9453941",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://otieu.com/4/9453945",
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://otieu.com/4/9453948",
-      "https://www.profitableratecpm.com/uvhjwgzvvu?key=7d8eefe589a22bff00200aa016cdf4c5",
-      "https://otieu.com/4/9453954",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://otieu.com/4/9453950",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://otieu.com/4/9453931",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://otieu.com/4/9452846",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://otieu.com/4/9453952",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://otieu.com/4/9453947",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://otieu.com/4/9453956",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://otieu.com/4/9453939",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://otieu.com/4/9453953",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://otieu.com/4/9453938",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396",
-      "https://otieu.com/4/9453949",
-      "https://www.profitableratecpm.com/yb78vf3e4?key=2b7b3e9a4c7f7f8bf37199e48361bd84",
-      "https://otieu.com/4/9453943",
-      "https://www.profitableratecpm.com/xi12f9t2ka?key=b4d48b8bf0cc620cc6eaff47ec2bf989",
-      "https://otieu.com/4/9453942",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://otieu.com/4/9453942",
-      "https://www.profitableratecpm.com/kbdab1z3s?key=b5be9e22867bff3e30c2b62cf16912fb",
-      "https://otieu.com/4/9453932",
-      "https://www.profitableratecpm.com/y7my9aizec?key=0fd7a3fec9a14245c6c6195f254294db",
-      "https://otieu.com/4/9453944",
-      "https://www.profitableratecpm.com/ftpxujeri3?key=f2ea352cc8949e9314e7762abb19c1ab",
-      "https://otieu.com/4/9453955",
-      "https://www.profitableratecpm.com/xqu4056vbg?key=c56bd280d6af1bab103452830a1cfcff",
-      "https://otieu.com/4/9453941",
-      "https://www.profitableratecpm.com/ysqpjek5h?key=832387bbca524e7c22bb700085d23d49",
-      "https://otieu.com/4/9453945",
-      "https://www.profitableratecpm.com/yppak428s?key=9cfcbb64a76c0c153ff07b5dcf3c6025",
-      "https://otieu.com/4/9453948",
-      "https://www.profitableratecpm.com/f8iikei3?key=33119cb486103a46370813277eacf7d5",
-      "https://otieu.com/4/9453954",
-      "https://www.profitableratecpm.com/itk03buj?key=10d89b1e27b4f2c067fb264420de2a82",
-      "https://otieu.com/4/9453950",
-      "https://www.profitableratecpm.com/aceejemvu?key=fac70a57e2295cbed71bbfd848a9cb0e",
-      "https://otieu.com/4/9453931",
-      "https://www.profitableratecpm.com/fstpz6h3b?key=52099a2067c8f5ed7a76532ac1657396"
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro Job - Telegram Bot Integration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* আগের সব CSS একই থাকবে */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --dark: #343a40;
+            --light: #f8f9fa;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            transition: background 0.3s;
+        }
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        body.dark-mode .header,
+        body.dark-mode .mobile-menu,
+        body.dark-mode .page-content > div {
+            background: #1e1e2f !important;
+            color: #fff !important;
+        }
+        body.dark-mode .menu-item {
+            color: #fff;
+            border-bottom-color: #333;
+        }
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px 20px; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .left-icons { display: flex; gap: 15px; align-items: center; }
+        .menu-toggle, .notification-icon, .profile-icon, .theme-toggle {
+            font-size: 24px; color: var(--primary); cursor: pointer; padding: 8px;
+            border-radius: 50%; transition: all 0.3s ease;
+        }
+        .notification-badge {
+            position: absolute; top: 5px; right: 5px; background: var(--danger);
+            color: white; border-radius: 50%; width: 18px; height: 18px;
+            font-size: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .mobile-menu {
+            position: fixed; top: 70px; left: -300px; width: 280px;
+            height: calc(100vh - 70px); background: white; box-shadow: 2px 0 20px rgba(0,0,0,0.1);
+            transition: left 0.3s ease; z-index: 999; padding: 20px 0;
+            overflow-y: auto;
+        }
+        .mobile-menu.active { left: 0; }
+        .menu-item { 
+            display: block; padding: 15px 25px; color: #333; text-decoration: none;
+            font-size: 16px; border-bottom: 1px solid #f0f0f0; transition: all 0.3s;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;
+        }
+        .menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden;
+            transition: all 0.3s; z-index: 998;
+        }
+        .menu-overlay.active { opacity: 1; visibility: visible; }
+        .earning-section {
+            background: rgba(255,255,255,0.1); padding: 20px; margin: 20px;
+            border-radius: 20px; backdrop-filter: blur(10px);
+        }
+        .btn-earning {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white; padding: 15px 30px; border: none;
+            border-radius: 25px; font-size: 18px; margin-right: 10px;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-deposit {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white; padding: 15px 30px; border: none;
+            border-radius: 25px; font-size: 18px; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-earning:hover { transform: scale(1.05); }
+        .btn-deposit:hover { transform: scale(1.05); }
+        
+        /* Page Content */
+        .page-content { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .page-content.active { display: block; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+        body.dark-mode .form-group label { color: #fff; }
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 15px; border: 2px solid #e1e5e9;
+            border-radius: 12px; font-size: 16px; transition: border 0.3s;
+            background: white;
+        }
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group select,
+        body.dark-mode .form-group textarea {
+            background: #2d2d44;
+            border-color: #444;
+            color: #fff;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none; border-color: var(--primary);
+        }
+        .form-row { display: flex; gap: 15px; }
+        .form-row .form-group { flex: 1; }
+        .btn-back { 
+            background: #6c757d; color: white; padding: 12px 25px;
+            border: none; border-radius: 8px; cursor: pointer; margin-right: auto;
+        }
+        .btn-submit { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 12px 25px; border: none;
+            border-radius: 8px; cursor: pointer; font-size: 16px;
+        }
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .jobs-table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        body.dark-mode .jobs-table {
+            background: #2d2d44;
+        }
+        .jobs-table th, .jobs-table td {
+            padding: 15px; text-align: left; border-bottom: 1px solid #eee;
+        }
+        body.dark-mode .jobs-table td {
+            border-bottom-color: #444;
+            color: #fff;
+        }
+        .jobs-table th { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .status-pending { background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 20px; }
+        .status-active { background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 20px; }
+        .status-completed { background: #cce5ff; color: #004085; padding: 4px 8px; border-radius: 20px; }
+        .btn-action { 
+            background: var(--success); color: white; padding: 6px 12px;
+            border: none; border-radius: 6px; cursor: pointer; margin: 0 2px;
+        }
+        .btn-delete {
+            background: var(--danger); color: white; padding: 6px 12px;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .payment-methods { display: flex; gap: 15px; margin: 20px 0; }
+        .payment-method { 
+            flex: 1; padding: 20px; text-align: center; border: 2px solid #e9ecef;
+            border-radius: 12px; cursor: pointer; transition: all 0.3s;
+        }
+        body.dark-mode .payment-method {
+            border-color: #444;
+        }
+        .payment-method.active { border-color: var(--primary); background: rgba(102,126,234,0.1); }
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 30px; border-radius: 20px;
+            text-align: center; margin-bottom: 30px;
+        }
+        .login-container {
+            max-width: 400px; margin: 50px auto; background: white;
+            padding: 40px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .login-container {
+            background: #1e1e2f;
+        }
+        .login-tab {
+            display: flex; margin-bottom: 30px; border-bottom: 2px solid #eee;
+        }
+        .login-tab button {
+            flex: 1; padding: 15px; border: none; background: none;
+            font-size: 18px; cursor: pointer; color: #999;
+        }
+        .login-tab button.active {
+            color: var(--primary); border-bottom: 2px solid var(--primary);
+        }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .message {
+            padding: 15px; border-radius: 10px; margin: 20px 0;
+            display: none;
+        }
+        .message.success { background: #d4edda; color: #155724; display: block; }
+        .message.error { background: #f8d7da; color: #721c24; display: block; }
+        .job-card {
+            background: #f8f9fa; padding: 20px; border-radius: 10px;
+            margin-bottom: 15px; display: flex; justify-content: space-between;
+            align-items: center;
+        }
+        body.dark-mode .job-card {
+            background: #2d2d44;
+        }
+        .telegram-config {
+            background: #f0f9ff;
+            border: 2px solid var(--primary);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .config-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .form-row { flex-direction: column; }
+            .payment-methods { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="left-icons">
+            <div class="menu-toggle" id="menuToggle"><i class="fas fa-ellipsis-v"></i></div>
+            <div class="notification-icon" id="notificationIcon" style="position: relative;">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="notificationBadge">0</span>
+            </div>
+            <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
+        </div>
+        <div class="profile-icon" id="profileIcon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </div>
 
-    ];
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay"></div>
 
-    function startTask() {  
-      if (data.completed >= 100) return alert("You have completed all tasks for today!");  
-      const start = Date.now();  
-      const ad = window.open(taskLinks[data.completed], "_blank");  
-      const check = setInterval(() => {  
-        if (ad.closed) {  
-          clearInterval(check);  
-          const duration = (Date.now() - start) / 1000;  
-          if (duration >= 15) {  
-            data.completed++;  
-            data.remaining--;  
-            data.todaysEarning += 0.025;  
-            userData.lifetimeEarning += 0.025;  
-            updateStorage();  
-            updateDisplay();  
-            alert("✅ Task completed! $0.025 added.");  
-          } else {  
-            alert("⏱️ আপনাকে অবশ্যই কমপক্ষে 15 সেকেন্ডের জন্য বিজ্ঞাপনটি দেখতে হবে!");  
-          }  
-        }  
-      }, 500);  
-    }  
-  
-    function submitWithdrawal() {  
-      const amount = parseFloat(document.getElementById("withdraw-amount").value);  
-      if (isNaN(amount) || amount < 30) return alert("You need at least $30 to withdraw.");  
-      if (amount > userData.lifetimeEarning) return alert("Insufficient balance.");  
-      if (userData.referrals < 10) return alert("আপনার এখনো ১০টি রেফার হয়নি! প্রথম বার পেমেন্ট নিতে হলে কমপক্ষে ১০টি রেফারেল দরকার।");  
-      alert("Withdrawal submitted!");  
-    }  
-  
-    function show(section) {  
-      document.querySelector('.profile').style.display = section === 'home' ? 'block' : 'none';  
-      document.querySelectorAll('.card').forEach(c => c.style.display = 'none');  
-      if (section === 'home') document.querySelectorAll('.card').forEach((c, i) => i < 2 && (c.style.display = 'block'));  
-      else document.getElementById(section).style.display = 'block';  
-      document.querySelectorAll('.nav div').forEach(div => div.classList.remove('active'));  
-      document.getElementById("nav-" + section).classList.add('active');  
-    }  
-  
-    function copyReferralLink() {  
-      const refLink = `https://t.me/Daily_Earning_545_Bot?start=ref_${userId}`;  
-      navigator.clipboard.writeText(refLink)  
-        .then(() => alert("✅ আপনার রেফার লিংক কপি করা হয়েছে! প্রতি রেফারে পাবেন $1 ডলার। 👫 রেফার করে অল্প সময়ে বেশি ইনকাম করতে চাইলে আপনার বন্ধুদের রেফার লিংক শেয়ার করুন অথবা Facebook এর ইনকাম Group গুলোর পোস্টের কমেন্ট বক্সে আপনার লিংক পেস্ট করুন !"))  
-        .catch(() => alert("Failed to copy link."));  
-    }  
-  
-    updateDisplay();  
-    updateStorage();  
-  </script>  
-</body>  
-</html>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="earning-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <span style="font-size: 18px; font-weight: 600;">Earning: ৳<span id="earningBalance">0.00</span></span>
+                <button class="btn-earning" onclick="showPage('withdraw')">
+                    <i class="fas fa-wallet"></i> Withdraw
+                </button>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 18px; font-weight: 600;">Deposit: ৳<span id="depositBalance">0.00</span></span>
+                <button class="btn-deposit" onclick="showPage('deposit')">
+                    <i class="fas fa-plus-circle"></i> Deposit
+                </button>
+            </div>
+        </div>
+        <div id="menuItems">
+            <!-- Menu items will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Telegram Bot Setup Page (শুধু অ্যাডমিন দেখবে) -->
+    <div id="telegram-setup" class="page-content">
+        <h2 style="color: white;">টেলিগ্রাম বট সেটআপ</h2>
+        <div class="telegram-config">
+            <h3>🤖 উইথড্র বট কনফিগারেশন</h3>
+            <div class="form-group">
+                <label>Withdraw Bot API Token</label>
+                <input type="text" id="withdrawBotToken" class="config-input" placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz">
+            </div>
+            <div class="form-group">
+                <label>Admin Chat ID (Channel/Group ID)</label>
+                <input type="text" id="adminChatId" class="config-input" placeholder="-1001234567890">
+            </div>
+            
+            <h3 style="margin-top: 20px;">🤖 ডিপোজিট বট কনফিগারেশন</h3>
+            <div class="form-group">
+                <label>Deposit Bot API Token</label>
+                <input type="text" id="depositBotToken" class="config-input" placeholder="1234567890:ABCdefGHIjklMNOpqrsTUVwxyz">
+            </div>
+            
+            <button class="btn-submit" onclick="saveBotConfig()" style="width: 100%;">কনফিগারেশন সংরক্ষণ করুন</button>
+        </div>
+    </div>
+
+    <!-- Login/Register Page -->
+    <div id="loginPage" class="page-content active">
+        <div class="login-container">
+            <h2 style="text-align: center; margin-bottom: 30px;">Micro Job এ স্বাগতম</h2>
+            
+            <div class="login-tab">
+                <button class="active" onclick="switchAuthTab('login')">লগইন</button>
+                <button onclick="switchAuthTab('register')">রেজিস্টার</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="auth-form active">
+                <div class="form-group">
+                    <label>ইমেইল</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>পাসওয়ার্ড</label>
+                    <input type="password" id="loginPassword" placeholder="******">
+                </div>
+                <button class="btn-submit" onclick="loginUser()" style="width: 100%;">লগইন</button>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>পূর্ণ নাম</label>
+                    <input type="text" id="regName" placeholder="রহিম খান">
+                </div>
+                <div class="form-group">
+                    <label>ইমেইল</label>
+                    <input type="email" id="regEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>মোবাইল</label>
+                    <input type="text" id="regPhone" placeholder="01XXXXXXXXX">
+                </div>
+                <div class="form-group">
+                    <label>পাসওয়ার্ড</label>
+                    <input type="password" id="regPassword" placeholder="******">
+                </div>
+                <div class="form-group">
+                    <label>পাসওয়ার্ড নিশ্চিত করুন</label>
+                    <input type="password" id="regConfirmPassword" placeholder="******">
+                </div>
+                <button class="btn-submit" onclick="registerUser()" style="width: 100%;">রেজিস্টার</button>
+            </div>
+
+            <div id="authMessage" class="message"></div>
+        </div>
+    </div>
+
+    <!-- Find Jobs Page -->
+    <div id="find-jobs" class="page-content">
+        <h2 style="color: white; margin-bottom: 30px;">উপলব্ধ কাজসমূহ</h2>
+        <div id="availableJobs" style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <!-- Jobs will be populated here -->
+        </div>
+    </div>
+
+    <!-- Job Post Page -->
+    <div id="job-post" class="page-content">
+        <h2 style="color: white;">নতুন জব পোস্ট করুন</h2>
+        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" id="jobTitle" placeholder="e.g., Facebook Like, YouTube Subscribe">
+            </div>
+            <div class="form-group">
+                <label>Job Description</label>
+                <textarea id="jobDescription" rows="3" placeholder="কাজের বিস্তারিত বিবরণ দিন"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Worker Need</label>
+                    <select id="workerNeed">
+                        <option>১ জন</option>
+                        <option>২ জন</option>
+                        <option>৩ জন</option>
+                        <option>৫ জন</option>
+                        <option>১০ জন</option>
+                        <option>২০ জন</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Each Worker Earn (৳)</label>
+                    <input type="number" id="eachWorkerEarn" placeholder="প্রতি worker এর আয়" value="25">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Work Link</label>
+                <input type="url" id="workLink" placeholder="https://example.com/work">
+            </div>
+            <div class="form-group">
+                <label>Estimated Job Cost: ৳<span id="estimatedCost">0.00</span></label>
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button class="btn-back" onclick="showPage('find-jobs')">← Back</button>
+                <button class="btn-submit" onclick="submitJobPost()" id="submitJobBtn">Submit Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Jobs Page -->
+    <div id="my-jobs" class="page-content">
+        <h2 style="color: white;">আমার জবসমূহ</h2>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <table class="jobs-table">
+                <thead>
+                    <tr>
+                        <th>Job ID</th>
+                        <th>Job Name</th>
+                        <th>Progress</th>
+                        <th>Cost</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="jobsTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- My Applied Jobs Page -->
+    <div id="applied-jobs" class="page-content">
+        <h2 style="color: white;">আমার করা কাজসমূহ</h2>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div id="appliedJobsList"></div>
+        </div>
+    </div>
+
+    <!-- Withdraw Page -->
+    <div id="withdraw" class="page-content">
+        <h2 style="color: white;">Withdraw Request</h2>
+        <div class="balance-card">
+            <h3>ইউজার: <span id="withdrawUserName">Guest</span></h3>
+            <h1>Earning Balance: ৳<span id="withdrawBalance">0.00</span></h1>
+        </div>
+        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div class="payment-methods">
+                <div class="payment-method active" data-method="bkash">
+                    <i class="fab fa-btc" style="font-size: 40px; color: #00C851;"></i>
+                    <h4>bKash</h4>
+                </div>
+                <div class="payment-method" data-method="nagad">
+                    <i class="fas fa-mobile-alt" style="font-size: 40px; color: #FF6B35;"></i>
+                    <h4>Nagad</h4>
+                </div>
+                <div class="payment-method" data-method="rocket">
+                    <i class="fas fa-rocket" style="font-size: 40px; color: #DAA520;"></i>
+                    <h4>Rocket</h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Receive Account</label>
+                <input type="text" id="receiveAccount" placeholder="01XXXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>Payment Amount (৳)</label>
+                <input type="number" id="paymentAmount" placeholder="Minimum 500">
+            </div>
+            <div style="text-align: center;">
+                <button class="btn-submit" onclick="submitWithdraw()" style="padding: 15px 40px; font-size: 18px;">
+                    Withdraw Request পাঠান
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Page -->
+    <div id="deposit" class="page-content">
+        <h2 style="color: white;">Deposit Money</h2>
+        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div class="payment-methods">
+                <div class="payment-method active" data-method="bkash">
+                    <i class="fab fa-btc" style="font-size: 40px; color: #00C851;"></i>
+                    <h4>bKash</h4>
+                </div>
+                <div class="payment-method" data-method="nagad">
+                    <i class="fas fa-mobile-alt" style="font-size: 40px; color: #FF6B35;"></i>
+                    <h4>Nagad</h4>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Send Money to (bKash): 017XXXXXXXX</label>
+            </div>
+            <div class="form-group">
+                <label>Your Transaction ID</label>
+                <input type="text" id="transactionId" placeholder="e.g., 8F7G9H5J">
+            </div>
+            <div class="form-group">
+                <label>Amount (৳)</label>
+                <input type="number" id="depositAmount" placeholder="Minimum 100">
+            </div>
+            <button class="btn-submit" onclick="submitDeposit()" style="width: 100%;">Deposit Request পাঠান</button>
+        </div>
+    </div>
+
+    <!-- Transaction History Page -->
+    <div id="transaction" class="page-content">
+        <h2 style="color: white;">Transaction History</h2>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <table class="jobs-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionHistory"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 📝 আপনার টেলিগ্রাম বটের তথ্য এখানে বসান
+        const TELEGRAM_CONFIG = {
+            WITHDRAW_BOT_TOKEN: 'YOUR_WITHDRAW_BOT_TOKEN_HERE', // আপনার উইথড্র বটের টোকেন দিন
+            DEPOSIT_BOT_TOKEN: 'YOUR_DEPOSIT_BOT_TOKEN_HERE',   // আপনার ডিপোজিট বটের টোকেন দিন
+            ADMIN_CHAT_ID: 'YOUR_ADMIN_CHAT_ID_HERE'            // আপনার অ্যাডমিন চ্যানেল/গ্রুপের আইডি দিন
+        };
+
+        // Global Variables
+        let currentUser = null;
+        let users = [];
+        let jobs = [];
+        let appliedJobs = [];
+        let transactions = [];
+        let withdrawRequests = [];
+        let depositRequests = [];
+
+        // Load data from localStorage
+        function loadData() {
+            users = JSON.parse(localStorage.getItem('users')) || [];
+            jobs = JSON.parse(localStorage.getItem('jobs')) || [];
+            appliedJobs = JSON.parse(localStorage.getItem('appliedJobs')) || [];
+            transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+            withdrawRequests = JSON.parse(localStorage.getItem('withdrawRequests')) || [];
+            depositRequests = JSON.parse(localStorage.getItem('depositRequests')) || [];
+            
+            // Check if logged in
+            const loggedInUser = localStorage.getItem('currentUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                showPage('find-jobs');
+                updateUI();
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('jobs', JSON.stringify(jobs));
+            localStorage.setItem('appliedJobs', JSON.stringify(appliedJobs));
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            localStorage.setItem('withdrawRequests', JSON.stringify(withdrawRequests));
+            localStorage.setItem('depositRequests', JSON.stringify(depositRequests));
+            if (currentUser) {
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        // 📤 টেলিগ্রামে মেসেজ পাঠানোর ফাংশন
+        async function sendTelegramMessage(botToken, chatId, message, buttons = null) {
+            try {
+                let url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                let payload = {
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'HTML'
+                };
+                
+                if (buttons) {
+                    payload.reply_markup = {
+                        inline_keyboard: buttons
+                    };
+                }
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Telegram message error:', error);
+                return null;
+            }
+        }
+
+        // 💰 উইথড্র রিকোয়েস্ট টেলিগ্রামে পাঠান
+        async function sendWithdrawRequestToTelegram(request) {
+            if (!TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN || TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN === 'YOUR_WITHDRAW_BOT_TOKEN_HERE') {
+                alert('দয়া করে আগে টেলিগ্রাম বট কনফিগার করুন!');
+                showPage('telegram-setup');
+                return false;
+            }
+
+            const message = `
+<b>💰 নতুন উইথড্র রিকোয়েস্ট</b>
+
+🆔 রিকোয়েস্ট আইডি: <code>${request.id}</code>
+👤 ইউজার: ${request.userName}
+📧 ইমেইল: ${request.user}
+💳 মেথড: ${request.method}
+🏦 একাউন্ট: ${request.account}
+💵 পরিমাণ: ৳${request.amount}
+📅 তারিখ: ${new Date().toLocaleString()}
+
+অনুগ্রহ করে নিচের বাটন ব্যবহার করুন:
+            `;
+
+            const buttons = [
+                [
+                    { text: '✅ অনুমোদন করুন', callback_data: `approve_withdraw_${request.id}` },
+                    { text: '❌ বাতিল করুন', callback_data: `reject_withdraw_${request.id}` }
+                ]
+            ];
+
+            return await sendTelegramMessage(
+                TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN,
+                TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                message,
+                buttons
+            );
+        }
+
+        // 💳 ডিপোজিট রিকোয়েস্ট টেলিগ্রামে পাঠান
+        async function sendDepositRequestToTelegram(request) {
+            if (!TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN || TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN === 'YOUR_DEPOSIT_BOT_TOKEN_HERE') {
+                alert('দয়া করে আগে টেলিগ্রাম বট কনফিগার করুন!');
+                showPage('telegram-setup');
+                return false;
+            }
+
+            const message = `
+<b>💳 নতুন ডিপোজিট রিকোয়েস্ট</b>
+
+🆔 রিকোয়েস্ট আইডি: <code>${request.id}</code>
+👤 ইউজার: ${request.userName}
+📧 ইমেইল: ${request.user}
+💳 মেথড: ${request.method}
+🔢 ট্রানজেকশন আইডি: ${request.trxId}
+💵 পরিমাণ: ৳${request.amount}
+📅 তারিখ: ${new Date().toLocaleString()}
+
+অনুগ্রহ করে নিচের বাটন ব্যবহার করুন:
+            `;
+
+            const buttons = [
+                [
+                    { text: '✅ অনুমোদন করুন', callback_data: `approve_deposit_${request.id}` },
+                    { text: '❌ বাতিল করুন', callback_data: `reject_deposit_${request.id}` }
+                ]
+            ];
+
+            return await sendTelegramMessage(
+                TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN,
+                TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                message,
+                buttons
+            );
+        }
+
+        // 🎯 টেলিগ্রাম থেকে কলব্যাক হ্যান্ডেল করার জন্য পোলিং সেটআপ
+        async function checkTelegramUpdates() {
+            // এই ফাংশনটি টেলিগ্রাম থেকে বাটন ক্লিকের রেসপন্স চেক করবে
+            // আপনি চাইলে একটি সিম্পল API এন্ডপয়েন্ট বানাতে পারেন
+            
+            // নোট: এই ফাংশনটি রেগুলার ইন্টারভালে কল করতে হবে
+            // উদাহরণ: setInterval(checkTelegramUpdates, 5000);
+        }
+
+        // Navigation
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuItems = document.getElementById('menuItems');
+        const pages = document.querySelectorAll('.page-content');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+
+        menuOverlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
+
+        function showPage(pageName) {
+            pages.forEach(p => p.classList.remove('active'));
+            if (pageName === 'home') {
+                document.getElementById('find-jobs').classList.add('active');
+            } else {
+                const page = document.getElementById(pageName);
+                if (page) page.classList.add('active');
+            }
+            
+            // Update content based on page
+            if (pageName === 'find-jobs') displayAvailableJobs();
+            if (pageName === 'my-jobs') displayMyJobs();
+            if (pageName === 'applied-jobs') displayAppliedJobs();
+            if (pageName === 'transaction') displayTransactions();
+            
+            setTimeout(() => {
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            }, 200);
+        }
+
+        // Update menu based on login status
+        function updateMenu() {
+            let menuHtml = '';
+            if (currentUser) {
+                menuHtml = `
+                    <a href="#" class="menu-item" data-page="find-jobs">
+                        <i class="fas fa-search"></i> Find Job
+                    </a>
+                    <a href="#" class="menu-item" data-page="job-post">
+                        <i class="fas fa-plus-circle"></i> Job Post
+                    </a>
+                    <a href="#" class="menu-item" data-page="my-jobs">
+                        <i class="fas fa-briefcase"></i> My Jobs
+                    </a>
+                    <a href="#" class="menu-item" data-page="applied-jobs">
+                        <i class="fas fa-check-circle"></i> Applied Jobs
+                    </a>
+                    <a href="#" class="menu-item" data-page="withdraw">
+                        <i class="fas fa-wallet"></i> Withdraw
+                    </a>
+                    <a href="#" class="menu-item" data-page="deposit">
+                        <i class="fas fa-credit-card"></i> Deposit
+                    </a>
+                    <a href="#" class="menu-item" data-page="transaction">
+                        <i class="fas fa-exchange-alt"></i> Transaction
+                    </a>
+                `;
+                
+                if (currentUser.isAdmin) {
+                    menuHtml += `
+                        <a href="#" class="menu-item" data-page="telegram-setup">
+                            <i class="fas fa-robot"></i> Telegram Setup
+                        </a>
+                    `;
+                }
+                
+                menuHtml += `
+                    <a href="#" class="menu-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                `;
+            }
+            menuItems.innerHTML = menuHtml;
+            
+            // Add event listeners to menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = item.getAttribute('data-page');
+                    if (page) showPage(page);
+                });
+            });
+        }
+
+        // Update UI with user data
+        function updateUI() {
+            if (currentUser) {
+                document.getElementById('earningBalance').textContent = currentUser.earning.toFixed(2);
+                document.getElementById('depositBalance').textContent = currentUser.deposit.toFixed(2);
+                document.getElementById('withdrawUserName').textContent = currentUser.name;
+                document.getElementById('withdrawBalance').textContent = currentUser.earning.toFixed(2);
+                
+                // Update notification badge
+                const pendingCount = appliedJobs.filter(j => j.status === 'pending').length;
+                document.getElementById('notificationBadge').textContent = pendingCount;
+            }
+        }
+
+        // Save bot configuration
+        function saveBotConfig() {
+            const withdrawToken = document.getElementById('withdrawBotToken').value;
+            const depositToken = document.getElementById('depositBotToken').value;
+            const adminChatId = document.getElementById('adminChatId').value;
+            
+            if (withdrawToken && depositToken && adminChatId) {
+                TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN = withdrawToken;
+                TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN = depositToken;
+                TELEGRAM_CONFIG.ADMIN_CHAT_ID = adminChatId;
+                
+                // Save to localStorage
+                localStorage.setItem('telegram_config', JSON.stringify({
+                    withdrawToken,
+                    depositToken,
+                    adminChatId
+                }));
+                
+                alert('কনফিগারেশন সংরক্ষিত হয়েছে! ✅');
+            } else {
+                alert('সব ফিল্ড পূরণ করুন!');
+            }
+        }
+
+        // Load saved bot config
+        function loadBotConfig() {
+            const saved = localStorage.getItem('telegram_config');
+            if (saved) {
+                const config = JSON.parse(saved);
+                document.getElementById('withdrawBotToken').value = config.withdrawToken;
+                document.getElementById('depositBotToken').value = config.depositToken;
+                document.getElementById('adminChatId').value = config.adminChatId;
+                
+                TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN = config.withdrawToken;
+                TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN = config.depositToken;
+                TELEGRAM_CONFIG.ADMIN_CHAT_ID = config.adminChatId;
+            }
+        }
+
+        // Auth Functions
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.login-tab button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelector('.login-tab button:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.login-tab button:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        function registerUser() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPass = document.getElementById('regConfirmPassword').value;
+
+            if (!name || !email || !phone || !password) {
+                showAuthMessage('সব ফিল্ড পূরণ করুন!', 'error');
+                return;
+            }
+
+            if (password !== confirmPass) {
+                showAuthMessage('পাসওয়ার্ড মিলছে না!', 'error');
+                return;
+            }
+
+            if (users.find(u => u.email === email)) {
+                showAuthMessage('এই ইমেইল আগে থেকেই আছে!', 'error');
+                return;
+            }
+
+            const newUser = {
+                id: 'U' + Date.now(),
+                name,
+                email,
+                phone,
+                password,
+                earning: 0,
+                deposit: 0,
+                isAdmin: users.length === 0 // প্রথম ইউজার অ্যাডমিন হবে
+            };
+
+            users.push(newUser);
+            currentUser = newUser;
+            saveData();
+            updateMenu();
+            showPage('find-jobs');
+            updateUI();
+        }
+
+        function loginUser() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                saveData();
+                updateMenu();
+                showPage('find-jobs');
+                updateUI();
+            } else {
+                showAuthMessage('ভুল ইমেইল বা পাসওয়ার্ড!', 'error');
+            }
+        }
+
+        function showAuthMessage(text, type) {
+            const msg = document.getElementById('authMessage');
+            msg.textContent = text;
+            msg.className = 'message ' + type;
+            setTimeout(() => {
+                msg.className = 'message';
+            }, 3000);
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateMenu();
+            showPage('loginPage');
+        }
+
+        // Job Functions
+        function calculateCost() {
+            const workers = parseInt(document.getElementById('workerNeed').value) || 0;
+            const perWorker = parseFloat(document.getElementById('eachWorkerEarn').value) || 0;
+            document.getElementById('estimatedCost').textContent = (workers * perWorker).toFixed(2);
+        }
+
+        document.getElementById('workerNeed').addEventListener('change', calculateCost);
+        document.getElementById('eachWorkerEarn').addEventListener('input', calculateCost);
+
+        function submitJobPost() {
+            if (!currentUser) {
+                alert('প্লিজ আগে লগইন করুন!');
+                showPage('loginPage');
+                return;
+            }
+
+            const title = document.getElementById('jobTitle').value;
+            const description = document.getElementById('jobDescription').value;
+            const workers = parseInt(document.getElementById('workerNeed').value);
+            const perWorker = parseFloat(document.getElementById('eachWorkerEarn').value);
+            const link = document.getElementById('workLink').value;
+            const totalCost = workers * perWorker;
+
+            if (!title || !description || !link || totalCost <= 0) {
+                alert('সব তথ্য সঠিকভাবে দিন!');
+                return;
+            }
+
+            if (currentUser.deposit < totalCost) {
+                alert('আপনার ডিপোজিট ব্যালেন্স পর্যাপ্ত নয়! আগে ডিপোজিট করুন।');
+                showPage('deposit');
+                return;
+            }
+
+            const newJob = {
+                id: 'JOB' + Date.now(),
+                title,
+                description,
+                workers,
+                perWorker,
+                link,
+                totalCost,
+                postedBy: currentUser.email,
+                postedByName: currentUser.name,
+                status: 'pending',
+                applied: [],
+                completed: 0,
+                createdAt: new Date().toISOString()
+            };
+
+            jobs.push(newJob);
+            
+            // Deduct from deposit
+            currentUser.deposit -= totalCost;
+            
+            // Add transaction
+            transactions.push({
+                date: new Date().toLocaleString(),
+                user: currentUser.email,
+                type: 'Job Post',
+                amount: totalCost,
+                status: 'completed'
+            });
+
+            saveData();
+            alert('জব পোস্ট হয়েছে! My Jobs এ দেখুন ✅');
+            showPage('my-jobs');
+        }
+
+        function displayAvailableJobs() {
+            const container = document.getElementById('availableJobs');
+            const activeJobs = jobs.filter(j => j.status === 'active');
+            
+            if (activeJobs.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">কোন কাজ পাওয়া যায়নি</p>';
+                return;
+            }
+
+            container.innerHTML = activeJobs.map(job => `
+                <div class="job-card">
+                    <div>
+                        <h3>${job.title}</h3>
+                        <p>${job.description}</p>
+                        <p><strong>আয়:</strong> ৳${job.perWorker} | <strong>অবশিষ্ট:</strong> ${job.workers - job.completed}/${job.workers}</p>
+                    </div>
+                    <button class="btn-submit" onclick="applyJob('${job.id}')" ${job.completed >= job.workers ? 'disabled' : ''}>
+                        কাজ শুরু করুন
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function applyJob(jobId) {
+            if (!currentUser) {
+                alert('প্লিজ আগে লগইন করুন!');
+                showPage('loginPage');
+                return;
+            }
+
+            const job = jobs.find(j => j.id === jobId);
+            if (!job) return;
+
+            if (job.completed >= job.workers) {
+                alert('এই কাজের জন্য আর জায়গা নেই!');
+                return;
+            }
+
+            if (appliedJobs.find(a => a.jobId === jobId && a.user === currentUser.email)) {
+                alert('আপনি ইতিমধ্যে এই কাজটি করেছেন!');
+                return;
+            }
+
+            // Add to applied jobs
+            appliedJobs.push({
+                jobId,
+                jobTitle: job.title,
+                user: currentUser.email,
+                userName: currentUser.name,
+                status: 'pending',
+                appliedAt: new Date().toISOString(),
+                earnings: job.perWorker
+            });
+
+            job.completed++;
+            if (job.completed >= job.workers) {
+                job.status = 'completed';
+            }
+
+            saveData();
+            alert('কাজ সম্পন্ন হয়েছে! আপনার আয় যোগ হবে অ্যাডমিন অ্যাপ্রুভের পর ✅');
+            showPage('applied-jobs');
+        }
+
+        function displayMyJobs() {
+            const myJobs = jobs.filter(j => j.postedBy === currentUser?.email);
+            const tbody = document.getElementById('jobsTableBody');
+            
+            tbody.innerHTML = myJobs.map(job => `
+                <tr>
+                    <td>${job.id}</td>
+                    <td>${job.title}</td>
+                    <td>${job.completed}/${job.workers}</td>
+                    <td>৳${job.totalCost}</td>
+                    <td><span class="status-${job.status}">${job.status}</span></td>
+                    <td>
+                        <button class="btn-action" onclick="activateJob('${job.id}')" ${job.status !== 'pending' ? 'disabled' : ''}>
+                            Publish
+                        </button>
+                        <button class="btn-delete" onclick="deleteJob('${job.id}')">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function activateJob(jobId) {
+            const job = jobs.find(j => j.id === jobId);
+            if (job) {
+                job.status = 'active';
+                saveData();
+                displayMyJobs();
+                alert('জব এখন Find Jobs এ দেখা যাবে! ✅');
+            }
+        }
+
+        function deleteJob(jobId) {
+            if (confirm('নিশ্চিতভাবে ডিলিট করতে চান?')) {
+                jobs = jobs.filter(j => j.id !== jobId);
+                saveData();
+                displayMyJobs();
+            }
+        }
+
+        function displayAppliedJobs() {
+            const myApplied = appliedJobs.filter(a => a.user === currentUser?.email);
+            const container = document.getElementById('appliedJobsList');
+            
+            if (myApplied.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">কোন কাজ করেননি</p>';
+                return;
+            }
+
+            container.innerHTML = myApplied.map(app => `
+                <div class="job-card">
+                    <div>
+                        <h3>${app.jobTitle}</h3>
+                        <p>আবেদনের তারিখ: ${new Date(app.appliedAt).toLocaleDateString()}</p>
+                        <p>আয়: ৳${app.earnings}</p>
+                    </div>
+                    <span class="status-${app.status}">${app.status}</span>
+                </div>
+            `).join('');
+        }
+
+        // 💰 Withdraw Functions (আপডেট করা হয়েছে)
+        async function submitWithdraw() {
+            if (!currentUser) {
+                alert('প্লিজ আগে লগইন করুন!');
+                return;
+            }
+
+            const account = document.getElementById('receiveAccount').value;
+            const amount = parseFloat(document.getElementById('paymentAmount').value);
+            const method = document.querySelector('.payment-method.active').getAttribute('data-method');
+
+            if (!account || !amount || amount < 500) {
+                alert('সঠিক তথ্য দিন! Minimum ৫০০৳');
+                return;
+            }
+
+            if (amount > currentUser.earning) {
+                alert('আপনার ইয়ার্নিং ব্যালেন্স পর্যাপ্ত নয়!');
+                return;
+            }
+
+            const requestId = 'W' + Date.now();
+            const newRequest = {
+                id: requestId,
+                user: currentUser.email,
+                userName: currentUser.name,
+                method,
+                account,
+                amount,
+                status: 'pending',
+                requestedAt: new Date().toISOString()
+            };
+
+            withdrawRequests.push(newRequest);
+
+            // Add transaction
+            transactions.push({
+                date: new Date().toLocaleString(),
+                user: currentUser.email,
+                type: 'Withdraw Request',
+                amount: -amount,
+                status: 'pending'
+            });
+
+            saveData();
+
+            // টেলিগ্রামে রিকোয়েস্ট পাঠান
+            const telegramResult = await sendWithdrawRequestToTelegram(newRequest);
+            
+            if (telegramResult && telegramResult.ok) {
+                alert('উইথড্র রিকোয়েস্ট পাঠানো হয়েছে! অ্যাডমিন অ্যাপ্রুভ করলে টাকা পাবেন। ✅');
+            } else {
+                alert('উইথড্র রিকোয়েস্ট সংরক্ষিত হয়েছে কিন্তু টেলিগ্রাম বট কনফিগার করুন!');
+                showPage('telegram-setup');
+            }
+
+            document.getElementById('receiveAccount').value = '';
+            document.getElementById('paymentAmount').value = '';
+        }
+
+        // 💳 Deposit Functions (আপডেট করা হয়েছে)
+        async function submitDeposit() {
+            if (!currentUser) {
+                alert('প্লিজ আগে লগইন করুন!');
+                return;
+            }
+
+            const trxId = document.getElementById('transactionId').value;
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const method = document.querySelector('.payment-method.active').getAttribute('data-method');
+
+            if (!trxId || !amount || amount < 100) {
+                alert('সঠিক তথ্য দিন! Minimum ১০০৳');
+                return;
+            }
+
+            const requestId = 'D' + Date.now();
+            const newRequest = {
+                id: requestId,
+                user: currentUser.email,
+                userName: currentUser.name,
+                method,
+                trxId,
+                amount,
+                status: 'pending',
+                requestedAt: new Date().toISOString()
+            };
+
+            depositRequests.push(newRequest);
+
+            saveData();
+
+            // টেলিগ্রামে রিকোয়েস্ট পাঠান
+            const telegramResult = await sendDepositRequestToTelegram(newRequest);
+            
+            if (telegramResult && telegramResult.ok) {
+                alert('ডিপোজিট রিকোয়েস্ট পাঠানো হয়েছে! অ্যাডমিন অ্যাপ্রুভ করলে টাকা যোগ হবে। ✅');
+            } else {
+                alert('ডিপোজিট রিকোয়েস্ট সংরক্ষিত হয়েছে কিন্তু টেলিগ্রাম বট কনফিগার করুন!');
+                showPage('telegram-setup');
+            }
+
+            document.getElementById('transactionId').value = '';
+            document.getElementById('depositAmount').value = '';
+        }
+
+        function displayTransactions() {
+            const userTransactions = transactions.filter(t => t.user === currentUser?.email);
+            const tbody = document.getElementById('transactionHistory');
+            
+            tbody.innerHTML = userTransactions.map(t => `
+                <tr>
+                    <td>${t.date}</td>
+                    <td>${t.type}</td>
+                    <td>৳${Math.abs(t.amount)}</td>
+                    <td><span class="status-${t.status}">${t.status}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        // অ্যাডমিন ফাংশন (টেলিগ্রাম থেকে কল হবে)
+        function approveWithdraw(requestId) {
+            const request = withdrawRequests.find(r => r.id === requestId);
+            if (request) {
+                request.status = 'approved';
+                
+                // Update user earning
+                const user = users.find(u => u.email === request.user);
+                if (user) {
+                    user.earning -= request.amount;
+                }
+
+                // Add transaction
+                transactions.push({
+                    date: new Date().toLocaleString(),
+                    user: request.user,
+                    type: 'Withdraw',
+                    amount: -request.amount,
+                    status: 'completed'
+                });
+
+                saveData();
+                
+                // টেলিগ্রামে কনফার্মেশন পাঠান
+                sendTelegramMessage(
+                    TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN,
+                    TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                    `✅ উইথড্র রিকোয়েস্ট ${requestId} অনুমোদিত হয়েছে!`
+                );
+            }
+        }
+
+        function rejectWithdraw(requestId) {
+            const request = withdrawRequests.find(r => r.id === requestId);
+            if (request) {
+                request.status = 'rejected';
+                saveData();
+                
+                sendTelegramMessage(
+                    TELEGRAM_CONFIG.WITHDRAW_BOT_TOKEN,
+                    TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                    `❌ উইথড্র রিকোয়েস্ট ${requestId} বাতিল করা হয়েছে!`
+                );
+            }
+        }
+
+        function approveDeposit(requestId) {
+            const request = depositRequests.find(r => r.id === requestId);
+            if (request) {
+                request.status = 'approved';
+                
+                // Update user deposit
+                const user = users.find(u => u.email === request.user);
+                if (user) {
+                    user.deposit += request.amount;
+                }
+
+                // Add transaction
+                transactions.push({
+                    date: new Date().toLocaleString(),
+                    user: request.user,
+                    type: 'Deposit',
+                    amount: request.amount,
+                    status: 'completed'
+                });
+
+                saveData();
+                
+                sendTelegramMessage(
+                    TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN,
+                    TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                    `✅ ডিপোজিট রিকোয়েস্ট ${requestId} অনুমোদিত হয়েছে!`
+                );
+            }
+        }
+
+        function rejectDeposit(requestId) {
+            const request = depositRequests.find(r => r.id === requestId);
+            if (request) {
+                request.status = 'rejected';
+                saveData();
+                
+                sendTelegramMessage(
+                    TELEGRAM_CONFIG.DEPOSIT_BOT_TOKEN,
+                    TELEGRAM_CONFIG.ADMIN_CHAT_ID,
+                    `❌ ডিপোজিট রিকোয়েস্ট ${requestId} বাতিল করা হয়েছে!`
+                );
+            }
+        }
+
+        // Dark Mode Toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('themeToggle').querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        });
+
+        // Initialize
+        loadData();
+        loadBotConfig();
+        updateMenu();
+        calculateCost();
+    </script>
+</body>
+</html>;
