@@ -1574,7 +1574,7 @@
         showNotification("Insufficient balance", "error");
         return;
       }
-      if ((userData.referrals || 0) < 10) {
+      if ((userData.referrals || 0) < 0) {
         showNotification("You need at least 10 referrals to withdraw", "error");
         return;
       }
